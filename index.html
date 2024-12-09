@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arcade Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+  
+<body>
+  
+    <h1>Welcome to the Arcade!</h1>
+    <p>Please enter your name to start:</p>
+    <input type="text" id="playerName">
+    <button onclick="startGameSession()">Start Game Session</button>
+    
+    <div id="gameButtons" style="display:none;">
+        <button onclick="playMagicEightBall()">Play Magic Eight Ball</button>
+        <button onclick="playSalesCommission()">Play Sales Commission</button>
+        <button onclick="playUnitToPercent()">Play Unit to Percent Calculator</button>
+    </div>
+
+    <div id="results"></div>
+
+    <div id="farewellMessage" style="display:none;">
+        <p>Thank you for playing at the Arcade, <span id="playerNameDisplay"></span>! Here are your playing session statistics:</p>
+        <table id="statsTable">
+            <tr>
+                <th>Total Games Played</th>
+                <td id="totalGames"></td>
+            </tr>
+            <tr>
+                <th>Total Wins</th>
+                <td id="totalWins"></td>
+            </tr>
+            <tr>
+                <th>Average Win Percentage</th>
+                <td id="winPercentage"></td>
+            </tr>
+        </table>
+        <p>You have earned the <span id="badge"></span> badge!</p>
+        <button onclick="location.reload();">Restart</button>
+    </div>
+
+    <script>
+        // Global variables
+        let playerName = '';
+        let gameSessionActive = false;
+        let totalGamesPlayed = 0;
+        let totalWins = 0;
+
+        // Function to start the game session
+        function startGameSession() {
+            playerName = document.getElementById('playerName').value;
+            if (playerName.trim() === "") {
+                alert("Please enter your name to start the game session.");
+            } else {
+                alert(`Welcome to the Arcade, ${playerName}!`);
+                document.getElementById('gameButtons').style.display = 'block';
+            }
+        }
+
+        // Magic Eight Ball Game Function
+        const playMagicEightBall = () => {
+            totalGamesPlayed++;
+            const responses = [
+                "Yes, absolutely!",
+                "No, certainly not.",
+                "It is certain.",
+                "Outlook not so good.",
+                "Ask again later.",
+                "Don't count on it.",
+                "Signs point to yes.",
+                "Very doubtful."
+            ];
+            let playAgain;
+            let gameWon = false; // Example condition for a win (you can define your own)
+            
+            do {
+                let question = prompt("Ask your question:");
+                if (question) {
+                    const randomIndex = Math.floor(Math.random() * responses.length);
+                    const response = responses[randomIndex];
+                    alert(`Answer: ${response}`);
+
+                    playAgain = prompt(`${playerName}, Would you like to keep playing this game? y/n`).toLowerCase();
+                    if (response === "It is certain.") gameWon = true; // Example win condition
+                }
+            } while (playAgain === 'y');
+
+            if (gameWon) totalWins++;
+
+            if (playAgain === 'n') {
+                pickAnotherGame();
+            }
+        }
+
+        // Sales Commission Calculator Game Function
+        const playSalesCommission = function() {
+            totalGamesPlayed++;
+            let sales = [];
+            let sale, totalSales = 0, commissionRate = 0, commission = 0, totalEarnings = 0;
+            let playAgain;
+            let gameWon = false; // Example condition for a win (you can define your own)
+
+            do {
+                while (true) {
+                    sale = prompt("Enter sale amount in dollars and cents (e.g., 123.45) or type 'Done' to finish:");
+                    if (sale.toLowerCase() === "done") break;
+                    if (sale === null || sale.trim() === "") {
+                        alert("Invalid input. Please enter a valid dollar amount.");
+                        continue;
+                    }
+                    let saleAmount = parseFloat(sale);
+                    if (!isNaN(saleAmount) && saleAmount >= 0) {
+                        sales.push(saleAmount);
+                    } else {
+                        alert("Invalid input. Please enter a valid dollar amount.");
+                    }
+                }
+                
+                totalSales = sales.reduce((a, b) => a + b, 0);
+
+                if (totalSales > 0) {
+                    if (totalSales < 500) {
+                        commissionRate = 0.05;
+                    } else if (totalSales < 1000) {
+                        commissionRate = 0.10;
+                    } else {
+                        commissionRate = 0.15;
+                    }
+                } else {
+                    commissionRate = 0;
+                }
+
+                commission = totalSales * commissionRate;
+                totalEarnings = totalSales + commission;
+
+                alert(`Hello ${playerName}, Here is your Weekly Commission Report.\n` +
+                    `Your sales total is $${totalSales.toFixed(2)}, so your commission rate is ${(commissionRate * 100).toFixed(2)}%.\n` +
+                    `Your total commission is $${commission.toFixed(2)}.\n` +
+                    `Your total earnings are $${totalEarnings.toFixed(2)}.`);
+
+                playAgain = prompt(`${playerName}, Would you like to keep playing this game? y/n`).toLowerCase();
+                if (totalEarnings > 1000) gameWon = true; // Example win condition
+            } while (playAgain === 'y');
+
+            if (gameWon) totalWins++;
+
+            if (playAgain === 'n') {
+                pickAnotherGame();
+            }
+        }
+
+        // Unit to Percent Calculator Game Function
+        const playUnitToPercent = () => {
+            totalGamesPlayed++;
+            let A = Math.floor(Math.random() * 30) + 1;
+            let B = Math.floor(Math.random() * 30) + 1;
+            let W = A + B;
+            let percentPartA = (A / W) * 100;
+            let percentPartB = (B / W) * 100;
+            let gameWon = false; // Example condition for a win (you can define your own)
+
+            if (percentPartA > 50 || percentPartB > 50) gameWon = true; // Example win condition
+
+            let result = `<table>`;
+            result += `<tr><th>Total Weight</th><th>Part A</th><th>Part B</th></tr>`;
+            result += `<tr><td>${W}</td><td>${percentPartA.toFixed(2)}%</td><td>${percentPartB.toFixed(2)}%</td></tr>`;
+            result += `</table>`;
+
+            document.getElementById('results').innerHTML = result;
+
+            if (gameWon) totalWins++;
+
+            pickAnotherGame();
+        }
+
+        // Function to prompt user to pick another game
+        function pickAnotherGame() {
+            let playAnotherGame = prompt(`${playerName}, Would you like to pick another game to play? y/n`).toLowerCase();
+            if (playAnotherGame === 'y') {
+                document.getElementById('gameButtons').style.display = 'block';
+            } else if (playAnotherGame === 'n') {
+                updateStats();
+                document.getElementById('farewellMessage').style.display = 'block';
+            }
+        }
+
+        // Function to update the stats table and award badge
+        function updateStats() {
+            document.getElementById('playerNameDisplay').textContent = playerName;
+            document.getElementById('totalGames').textContent = totalGamesPlayed;
+            document.getElementById('totalWins').textContent = totalWins;
+            const winPercentage = ((totalWins / totalGamesPlayed) * 100).toFixed(2);
+            document.getElementById('winPercentage').textContent = winPercentage + '%';
+
+            let badge;
+            switch (true) {
+                case (winPercentage <= 25):
+                    badge = 'Stone';
+                    break;
+                case (winPercentage <= 50):
+                    badge = 'Bronze';
+                    break;
+                case (winPercentage <= 75):
+                    badge = 'Iron';
+                    break;
+                case (winPercentage <= 100):
+                    badge = 'Silicon';
+                    break;
+                default:
+                    badge = 'No Badge';
+            }
+            document.getElementById('badge').textContent = badge;
+        }
+    </script>
+</body>
+</html>
 
