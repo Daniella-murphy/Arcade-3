@@ -75,27 +75,3 @@ button:hover {
     font-size: 1.5em;
     color: #ff5733;
 }
-
-button:hover {
-    background-color: #ff7f50;
-}
-#statsTable {
-    border-collapse: collapse;
-    width: 100%;
-    background-color: #f9f9f9;
-}
-
-#statsTable th, #statsTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-#statsTable th {
-    background-color: #4CAF50;
-    color: white;
-    text-align: left;
-}
-
-#statsTable td {
-    text-align: center;
-}
