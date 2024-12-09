@@ -18,3 +18,85 @@
 #statsTable td {
     text-align: center;
 }
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f2f2f2;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ff5733;
+    font-size: 3em;
+    margin-top: 20px;
+    text-shadow: 2px 2px #ffa07a;
+}
+
+p {
+    color: #333;
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    font-size: 1.2em;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #ff5733;
+    outline: none;
+}
+
+button {
+    background-color: #ff5733;
+    color: white;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ffa07a;
+}
+
+#results, #farewellMessage {
+    margin-top: 20px;
+}
+
+#statsTable {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+    background-color: #ffedd5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#statsTable th, #statsTable td {
+    border: 1px solid #ff5733;
+    padding: 10px;
+}
+
+#statsTable th {
+    background-color: #ff7f50;
+    color: white;
+    text-align: center;
+}
+
+#statsTable td {
+    text-align: center;
+    font-weight: bold;
+}
+
+#badge {
+    font-size: 1.5em;
+    color: #ff5733;
+}
+
+button:hover {
+    background-color: #ff7f50;
+}
